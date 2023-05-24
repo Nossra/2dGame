@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "isometricGame.Android", "isometricGame.Android\isometricGame.Android.csproj", "{F468E730-9B03-43EC-8FDD-490889429B59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "isometricGame.Desktop", "isometricGame.Desktop\isometricGame.Desktop.csproj", "{2DECACBF-2378-499F-9F90-792569CA2874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "isometricGame.Library", "isometricGame.Library\isometricGame.Library.csproj", "{8D4D00DB-562A-4A20-87C5-4B3666AE121E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F468E730-9B03-43EC-8FDD-490889429B59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F468E730-9B03-43EC-8FDD-490889429B59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F468E730-9B03-43EC-8FDD-490889429B59}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F468E730-9B03-43EC-8FDD-490889429B59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F468E730-9B03-43EC-8FDD-490889429B59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F468E730-9B03-43EC-8FDD-490889429B59}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{2DECACBF-2378-499F-9F90-792569CA2874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DECACBF-2378-499F-9F90-792569CA2874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DECACBF-2378-499F-9F90-792569CA2874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DECACBF-2378-499F-9F90-792569CA2874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D4D00DB-562A-4A20-87C5-4B3666AE121E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D4D00DB-562A-4A20-87C5-4B3666AE121E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D4D00DB-562A-4A20-87C5-4B3666AE121E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D4D00DB-562A-4A20-87C5-4B3666AE121E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41E7D725-739C-4EB1-A38D-6650DD4BBEC1}
+	EndGlobalSection
+EndGlobal

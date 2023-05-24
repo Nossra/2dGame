@@ -1,0 +1,12 @@
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\bin\Debug\net6.0\isometricGame.Library.deps.json
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\bin\Debug\net6.0\isometricGame.Library.dll
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\bin\Debug\net6.0\isometricGame.Library.pdb
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\obj\Debug\net6.0\isometricGame.Library.csproj.AssemblyReference.cache
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\obj\Debug\net6.0\isometricGame.Library.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\obj\Debug\net6.0\isometricGame.Library.AssemblyInfoInputs.cache
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\obj\Debug\net6.0\isometricGame.Library.AssemblyInfo.cs
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\obj\Debug\net6.0\isometricGame.Library.csproj.CoreCompileInputs.cache
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\obj\Debug\net6.0\isometricGame.Library.dll
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\obj\Debug\net6.0\refint\isometricGame.Library.dll
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\obj\Debug\net6.0\isometricGame.Library.pdb
+C:\Users\martinil\source\repos\isometricGame\isometricGame.Library\obj\Debug\net6.0\ref\isometricGame.Library.dll

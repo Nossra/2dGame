@@ -41,8 +41,7 @@ namespace isometricGame.Library
         //from extended, tiledmaps are used to get objectlayers for collisions and interactable objects
         TiledMap _townTiledMap;
         TiledMap _rightHouseTiledMap;
-        TiledMap _leftHouseTiledMap;
-        OrthographicCamera _camera;
+        TiledMap _leftHouseTiledMap; 
 
         //from tiledsharp
         TmxMap _townTmxMap;
@@ -63,15 +62,13 @@ namespace isometricGame.Library
         /// </summary>
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferHeight = 1080;
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.ApplyChanges();
+            //graphics.PreferredBackBufferHeight = 1080;
+            //graphics.PreferredBackBufferWidth = 1920;
+            //graphics.ApplyChanges();
+            //graphics.IsFullScreen = true;
+            //graphics.ApplyChanges();
             ScreenWidth = graphics.PreferredBackBufferWidth;
-            ScreenHeight = graphics.PreferredBackBufferHeight;
-
-            var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, ScreenWidth, ScreenHeight);
-            _camera = new OrthographicCamera(viewportadapter);
-
+            ScreenHeight = graphics.PreferredBackBufferHeight; 
             base.Initialize(); 
         }
 
@@ -138,8 +135,7 @@ namespace isometricGame.Library
             CheckCollision();
             CollectCoin();
             InteractWithSign(); 
-            _player.MoveSprite(); 
-            _camera.LookAt(_player.Position);
+            _player.MoveSprite();  
 
             base.Update(gameTime);
         }
@@ -151,8 +147,9 @@ namespace isometricGame.Library
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black); 
-            _tilemapManager.Draw(); 
-            spriteBatch.Begin();
+            CalculateTranslation();
+            spriteBatch.Begin(transformMatrix: _translation);
+            _tilemapManager.Draw();
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
 
@@ -160,7 +157,14 @@ namespace isometricGame.Library
             spriteBatch.End();
             
             base.Draw(gameTime);
-        } 
+        }
+        Matrix _translation;
+        private void CalculateTranslation()
+        {
+            var dx = ScreenWidth / 2 - _player.Position.X; 
+            var dy = ScreenHeight /2 - _player.Position.Y;  
+            _translation = Matrix.CreateTranslation(dx, dy, 0f);
+        }
 
         private void LoadTextures()
         {

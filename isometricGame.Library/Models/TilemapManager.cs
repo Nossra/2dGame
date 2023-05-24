@@ -41,8 +41,7 @@ namespace isometricGame.Library.Models
         }
  
         public void Draw()
-        {
-            spriteBatch.Begin();
+        { 
             if (maps.FindAll(x => x.Active == true).Count > 1) throw new Exception("Too many active maps.");
 
             var map = maps.FirstOrDefault(x => x.Active == true);
@@ -72,10 +71,8 @@ namespace isometricGame.Library.Models
 
                         }
                     }
-                }
-
-            }
-            spriteBatch.End();
+                } 
+            } 
         }
     }
 }

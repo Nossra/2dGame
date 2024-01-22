@@ -34,6 +34,7 @@ namespace isometricGame.Library
         const string TOWN_NAME = "Town";
         int tileWidth;
         int tileHeight;
+        private Canvas _canvas;
 
         //player game state
         int playerCoins = 0; 
@@ -48,6 +49,7 @@ namespace isometricGame.Library
         TmxMap _rightHouseTmxMap;
         TmxMap _leftHouseTmxMap;
 
+        RenderTarget2D _renderTarget;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -62,13 +64,15 @@ namespace isometricGame.Library
         /// </summary>
         protected override void Initialize()
         {
-            //graphics.PreferredBackBufferHeight = 1080;
-            //graphics.PreferredBackBufferWidth = 1920;
+            //graphics.PreferredBackBufferHeight = 720;
+            //graphics.PreferredBackBufferWidth = 1280;
             //graphics.ApplyChanges();
             //graphics.IsFullScreen = true;
             //graphics.ApplyChanges();
             ScreenWidth = graphics.PreferredBackBufferWidth;
-            ScreenHeight = graphics.PreferredBackBufferHeight; 
+            ScreenHeight = graphics.PreferredBackBufferHeight;
+
+            _renderTarget = new RenderTarget2D(GraphicsDevice, 320, 200); 
             base.Initialize(); 
         }
 
@@ -79,35 +83,16 @@ namespace isometricGame.Library
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            _canvas = new Canvas(GraphicsDevice, 1920, 1080);
+            SetResolution(1920, 1080);
+
             LoadTextures();
             LoadTiledMaps();         //Used for object layers to get collisions and interactable objects
             LoadTmxMaps();           //the maps we have drawn in tiled
             LoadMaps();              //our custom map objects
             CreateTilemapManager();  //the manager responsible for drawing the map to the game
-            
-            _player = new Sprite(new Dictionary<string, Animation>()
-            {
-                { "WalkUp", new Animation(Content.Load<Texture2D>("Player/WalkingUp"), 3) },
-                { "WalkDown", new Animation(Content.Load<Texture2D>("Player/WalkingDown"), 3) },
-                { "WalkLeft", new Animation(Content.Load<Texture2D>("Player/WalkingLeft"), 3) },
-                { "WalkRight", new Animation(Content.Load<Texture2D>("Player/WalkingRight"), 3) },
-            })
-            {
-                Input = new Input()
-                {
-                    Up = Keys.W,
-                    Down = Keys.S,
-                    Left = Keys.A,
-                    Right = Keys.D,
-                    Interact = Keys.E
-                },
-            };
-            _player.Position = new Vector2(0,0);
-             
-            _components = new List<Models.Component>
-            {
-                _player,
-            };
+
+            LoadPlayer(); 
 
             var startMap = _maps.FirstOrDefault(x => x.Name == "Town");
             LoadMapData(startMap);
@@ -128,13 +113,14 @@ namespace isometricGame.Library
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
-        {  
+        {
+            CheckResolution();
             foreach (var component in _components)
                 component.Update(gameTime);
             CheckEntrance(); 
             CheckCollision();
             CollectCoin();
-            InteractWithSign(); 
+            InteractWithSign();
             _player.MoveSprite();  
 
             base.Update(gameTime);
@@ -145,32 +131,81 @@ namespace isometricGame.Library
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.Black); 
+        { 
             CalculateTranslation();
-            spriteBatch.Begin(transformMatrix: _translation);
-            _tilemapManager.Draw();
+            _canvas.Activate();
+            spriteBatch.Begin(transformMatrix: _translation, sortMode: SpriteSortMode.Deferred, samplerState: SamplerState.PointClamp);
+            _tilemapManager.Draw(); 
             foreach (var component in _components)
                 component.Draw(gameTime, spriteBatch);
 
             spriteBatch.DrawString(_font, "Coins: " + playerCoins, new Vector2(10f, 10f), Color.White);
             spriteBatch.End();
-            
+
+            _canvas.Draw(spriteBatch); 
+
             base.Draw(gameTime);
         }
+
+        Camera _camera;
         Matrix _translation;
         private void CalculateTranslation()
         {
-            var dx = ScreenWidth / 2 - _player.Position.X; 
-            var dy = ScreenHeight /2 - _player.Position.Y;  
-            _translation = Matrix.CreateTranslation(dx, dy, 0f);
+            var screenWidth = graphics.PreferredBackBufferWidth;
+            var screenHeight = graphics.PreferredBackBufferHeight;
+
+            var mapWidth = 16 * 30;
+            var mapHeight = 16 * 20;
+
+            var windowSize = new Vector2(screenWidth, screenHeight);
+            var gameSize = new Vector2(mapWidth,mapHeight); 
+            var scale = Matrix.CreateScale(new Vector3(windowSize / gameSize, 1)); 
+
+            _translation = scale;
+        }
+        private void SetResolution(int width, int height)
+        {
+            graphics.PreferredBackBufferHeight = height;
+            graphics.PreferredBackBufferWidth = width;
+            graphics.ApplyChanges();
+            _canvas.SetDestinationRectangle();
+        }
+
+        private void CheckResolution()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.F1)) SetResolution(1920, 1080); 
+            if (Keyboard.GetState().IsKeyDown(Keys.F2)) SetResolution(800, 600);
+            if (Keyboard.GetState().IsKeyDown(Keys.F3)) SetResolution(640, 1080);
+        }
+
+        private void LoadPlayer()
+        {
+
+            _player = new Sprite(new Dictionary<string, Animation>()
+            {
+                { "WalkUp", new Animation(Content.Load<Texture2D>("Player/WalkingUp"), 3) },
+                { "WalkDown", new Animation(Content.Load<Texture2D>("Player/WalkingDown"), 3) },
+                { "WalkLeft", new Animation(Content.Load<Texture2D>("Player/WalkingLeft"), 3) },
+                { "WalkRight", new Animation(Content.Load<Texture2D>("Player/WalkingRight"), 3) },
+            })
+            {
+                Input = new Input()
+                {
+                    Up = Keys.W,
+                    Down = Keys.S,
+                    Left = Keys.A,
+                    Right = Keys.D,
+                    Interact = Keys.E
+                },
+            };
+            _player.Position = new Vector2(0, 0);
         }
 
         private void LoadTextures()
         {
             _font = Content.Load<SpriteFont>("File");
             _signFont = Content.Load<SpriteFont>("SignText");
-            _coinTexture = Content.Load<Texture2D>("Objects\\coin_transp");
+            _coinTexture = Content.Load<Texture2D>("Objects\\coin_transp"); 
             _tileSheet = Content.Load<Texture2D>("Map\\tilemap"); //the png file
         }
 
